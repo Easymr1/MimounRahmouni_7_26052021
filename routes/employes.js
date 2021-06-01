@@ -19,12 +19,14 @@ db.connect(err => {
 })
 
 
-router.get('/signup/:firstname/:lastname/:email', (req, res) => {
+router.post('/signup', (req, res, next) => {
+    console.log(req.body.email)
     let post = {
-        firstname: req.params.firstname,
-        lastname: req.params.lastname,
-        email: req.params.email
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email
     };
+
     let sql = 'INSERT INTO emplyee SET ?'
     db.query(sql, post, err => {
         if (err) {
@@ -36,8 +38,9 @@ router.get('/signup/:firstname/:lastname/:email', (req, res) => {
     })
 });
 
-router.get('/get', (req, res) => {
-    let sql = 'SELECT * FROM emplyee';
+
+router.post('/login', (req, res) => {
+    let sql = `SELECT * FROM emplyee WHERE id=${req.params.id}`;
     db.query(sql, (err, results) => {
         if (err) {
             console.log('Recherche echouer', err)
