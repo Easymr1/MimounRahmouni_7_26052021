@@ -19,14 +19,16 @@ db.connect(err => {
 
 
 exports.signup = (req, res, next) => {
-    console.log(req.body.email)
+
     let post = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password,
+        image_url: req.body.image_url,
     };
 
-    let sql = 'INSERT INTO emplyee SET ?'
+    let sql = 'INSERT INTO employes SET ?'
     db.query(sql, post, err => {
         if (err) {
             console.log('Probleme à la création de employee', err)
@@ -38,7 +40,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res) => {
-    let sql = `SELECT * FROM emplyee WHERE email='${req.body.email}'`;
+    let sql = `SELECT * FROM employes WHERE email='${req.body.email}'`;
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(400).json({ error: 'Une erreur c\'est produit !' });
@@ -52,7 +54,7 @@ exports.login = (req, res) => {
 
 exports.updateEmploye = (req, res) => {
     let newName = 'Lee';
-    let sql = `UPDATE emplyee SET firstname = '${newName}' WHERE id = ${req.params.id}`;
+    let sql = `UPDATE employes SET firstname = '${newName}' WHERE id = ${req.params.id}`;
     db.query(sql, err => {
         if (err) {
             console.log('Modification echouer', err)
@@ -62,7 +64,7 @@ exports.updateEmploye = (req, res) => {
 }
 
 exports.deleteEmploye = (req, res) => {
-    let sql = `DELETE FROM emplyee WHERE id = ${req.params.id}`;
+    let sql = `DELETE FROM employes WHERE id = ${req.params.id}`;
     db.query(sql, err => {
         if (err) {
             console.log('Employer non supprimer', err)
