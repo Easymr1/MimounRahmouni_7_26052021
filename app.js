@@ -1,10 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-
+require('dotenv').config()
 const employesRoutes = require('./routes/employes');
 
 const app = express();
+
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,10 +24,10 @@ app.use('/api/test', (req, res, next) => {
 })
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'nodemysql'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB
 
 });
 
