@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const employesRoutes = require('./routes/employes');
+const publicationRoutes = require('./routes/publication');
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use('/createtable', (req, res) => {
 
 
 app.use('/api/employes', employesRoutes);
+app.use('/api/publication', publicationRoutes);
 
 
 module.exports = app;

@@ -31,11 +31,9 @@ exports.signup = (req, res, next) => {
     let sql = 'INSERT INTO employes SET ?'
     db.query(sql, post, err => {
         if (err) {
-            console.log('Probleme à la création de employee', err)
+            throw res.status(401).json({ error: 'L\'utilisateur existe déja !' });
         }
-        console.log(sql, post)
-
-        res.send('Employee crée')
+        res.status(201).json({ message: 'Compte employés crée!' });
     })
 };
 
