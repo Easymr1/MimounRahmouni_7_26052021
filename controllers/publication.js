@@ -9,7 +9,5 @@ exports.publication = (req, res, next) => {
         _id: 2,
         employesId: 'qsomihvqios',
     }];
-    let onepublication = publication.find(one => one.publication._id == req.body.id);
-    console.log(publication.map(one => one._id))
-    res.status(200).json(onepublication);
+    res.status(200).json(publication);
 }
