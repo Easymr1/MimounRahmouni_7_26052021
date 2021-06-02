@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const { get } = require('../routes/employes');
 
 require('dotenv').config()
 
@@ -68,5 +69,18 @@ exports.deleteEmploye = (req, res) => {
             console.log('Employer non supprimer', err)
         }
         res.send('Employer supprimer avec succés');
+    })
+}
+
+exports.profile = (req, res, next) => {
+    let sql = `SELECT employes.firstname, employes.lastname, employes.image_url FROM employes WHERE id= ${req.body.id}`;
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(400).json({ error: 'Une erreur c\'est produit !' });
+        }
+        if (results == '') {
+            return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+        }
+        res.send(results)
     })
 }
