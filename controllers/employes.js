@@ -1,22 +1,6 @@
-const mysql = require('mysql');
-const { get } = require('../routes/employes');
+let db = require('../database/connectMySQL')
 
 require('dotenv').config()
-
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB
-});
-
-db.connect(err => {
-    if (err) {
-        console.log('Not Connected');
-        return;
-    }
-    console.log('MySQL Connected');
-})
 
 
 exports.signup = (req, res, next) => {

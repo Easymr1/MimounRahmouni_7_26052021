@@ -1,7 +1,8 @@
 const express = require('express');
-const mysql = require('mysql');
 const bodyParser = require('body-parser');
 require('dotenv').config()
+
+const employesDB = require('./database/routesDB/employesDB')
 
 
 const employesRoutes = require('./routes/employes');
@@ -22,49 +23,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api/test', (req, res, next) => {
-    console.log(req.body.nom);
-    res.send(req.body.nom)
-})
-
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB
-
-});
-
-db.connect(err => {
-    if (err) {
-        console.log('Not Connected');
-        return;
-    }
-    console.log('MySQL Connected');
-})
-
-
-
-
-
-app.use('/createdb', (req, res) => {
-    let sql = 'CREATE DATABASE nodemysql';
-    db.query(sql, err => {
-
-        res.send('Database Created')
-    })
-});
-
-app.use('/createtable', (req, res) => {
-    let sql = 'CREATE TABLE employes(id int AUTO_INCREMENT, firstname VARCHAR(50) NOT NULL, lastname VARCHAR(50) NOT NULL, email VARCHAR(200) NOT NULL, password VARCHAR(100) NOT NULL, image_url VARCHAR(200), PRIMARY KEY(id), UNIQUE(email));';
-    db.query(sql, err => {
-        if (err) {
-            console.log('Table non crée', err)
-        }
-        res.send('Table Created')
-    })
-});
-
+app.use('/api/employersDB', employesDB);
 
 
 app.use('/api/employes', employesRoutes);
