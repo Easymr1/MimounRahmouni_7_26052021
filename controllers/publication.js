@@ -1,15 +1,21 @@
+let db = require('../database/connectMySQL')
+const moment = require('moment');
+
+
 exports.publication = (req, res, next) => {
-    const publication = [{
-        titre: 'first publication',
-        contenue: 'Le contenue de ma permière publication',
-        _id: 1,
-        date: Date()
-    }, {
-        titre: 'second publication',
-        contenue: 'Le contenue de ma Deuxième  publication',
-        _id: 2,
-        employesId: 'qsomihvqios',
-        date: Date()
-    }];
-    res.status(200).json(publication);
+
+    let post = {
+        titre: req.body.titre,
+        texte: req.body.texte,
+        employeID: req.body.employesID,
+        date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+
+    };
+    let sql = 'INSERT INTO publication SET ?'
+    db.query(sql, post, err => {
+        if (err) {
+            throw res.status(401).json({ error: 'Publication non publier! ' });
+        }
+        res.status(201).json({ message: 'Publication publier! ' });
+    })
 }

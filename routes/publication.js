@@ -4,6 +4,6 @@ const router = express.Router();
 
 const publicationCtrl = require('../controllers/publication');
 
-router.use('/:id', publicationCtrl.publication);
+router.use('/publier', publicationCtrl.publication);
 
 module.exports = router;

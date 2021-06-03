@@ -1,6 +1,5 @@
 let db = require('../database/connectMySQL')
 
-require('dotenv').config()
 
 
 exports.signup = (req, res, next) => {
