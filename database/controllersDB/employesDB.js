@@ -18,6 +18,12 @@ exports.createtabl_employes = (req, res) => {
     })
 };
 
-exports.createtabl_employes = (req, res) => {
-
+exports.createtable_publication = (req, res) => {
+    let sql = 'CREATE TABLE publication(id int AUTO_INCREMENT, titre VARCHAR(100) NOT NULL, texte VARCHAR(500) NOT NULL, employeID int NOT NULL, PRIMARY KEY(id));';
+    db.query(sql, err => {
+        if (err) {
+            console.log('Table publication non crée', err)
+        }
+        res.send('Table Publication Created')
+    })
 }
