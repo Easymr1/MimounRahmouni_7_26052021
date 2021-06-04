@@ -4,6 +4,7 @@ const router = express.Router();
 
 const commentaireCtrl = require('../controllers/commentaire');
 
-router.use('/:id', commentaireCtrl.commentaire);
+router.use('/publier', commentaireCtrl.publierCommentaire);
+router.use('/:id', commentaireCtrl.getCommentaire);
 
 module.exports = router;

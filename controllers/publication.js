@@ -14,7 +14,7 @@ exports.publication = (req, res, next) => {
     let sql = 'INSERT INTO publication SET ?'
     db.query(sql, post, err => {
         if (err) {
-            throw res.status(401).json({ error: 'Publication non publier! ' });
+            throw res.status(401).json({ error: 'Publication non publier! ', err });
         }
         res.status(201).json({ message: 'Publication publier! ' });
     })

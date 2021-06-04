@@ -22,15 +22,18 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res) => {
-    let sql = `SELECT * FROM employes WHERE email='${req.body.email}'`;
+    let sql = `SELECT employes.password FROM employes WHERE email='${req.body.email}'`;
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(400).json({ error: 'Une erreur c\'est produit !' });
-        }
-        if (results == '') {
+        } else if (results == '') {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+        } else if (req.body.password === results[0].password) {
+            res.send(results)
+        } else {
+            return res.status(401).json({ error: 'Mot de passe incorrect !' });
         }
-        res.send(results)
+
     })
 }
 
