@@ -1,5 +1,6 @@
 const db = require('../database/connectMySQL')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -45,7 +46,8 @@ exports.login = (req, res) => {
                     employesId: results[0].id,
                     firstName: results[0].firstname,
                     lastName: results[0].lastname,
-                    token: 'TOKEN',
+                    token: jwt.sign({ employesId: results[0].id, firstName: results[0].firstname, lastName: results[0].lastname },
+                        process.env.TOKEN_KEY, { expiresIn: '24h' })
                 });
             })
     })
