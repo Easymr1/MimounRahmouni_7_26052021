@@ -9,7 +9,7 @@ const db = mysql.createConnection({
 
 db.connect(err => {
     if (err) {
-        console.log('Not Connected');
+        console.log('Not Connected to MySQL');
         return;
     }
     console.log('MySQL Connected');

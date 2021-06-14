@@ -6,6 +6,8 @@ const auth = require('../middleware/auth');
 
 const publicationCtrl = require('../controllers/publication');
 
-router.use('/publier', auth, publicationCtrl.publication);
+router.post('/',  publicationCtrl.createPublication);
+router.get('/',  publicationCtrl.getAllPublications);
+
 
 module.exports = router;

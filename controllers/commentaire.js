@@ -35,3 +35,13 @@ exports.getCommentaire = (req, res, next) => {
         res.status(200).json({ message: 'Commentaire recuperer! ', results });
     })
 }
+
+exports.getCommentaires = (req, res, next) => {
+    let sql = `SELECT * FROM commentaire `;
+    db.query(sql, (err, results) => {
+        if (err) {
+            throw res.status(404).json({ error: 'Commentaire non recuperer! ' });
+        }
+        res.status(200).json({ message: 'Commentaire recuperer! ', results });
+    })
+}
