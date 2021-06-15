@@ -30,13 +30,13 @@ exports.login = (req, res) => {
 
     db.query(sql, employeEmail, (err, results) => {
         if (err) {
-            throw res.status(400).json({ error: 'Une erreur c\'est produit !' });
+            res.status(400).json({ error: 'Une erreur c\'est produit !' });
         }
         if (results == '') {
-            throw res.status(401).json({ error: 'Utilisateur non trouvé !' });
+            res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
         if (req.body.password == undefined) {
-            throw res.status(401).json({ error: 'Veiller mettre un mot de passe !' });
+            res.status(401).json({ error: 'Veiller mettre un mot de passe !' });
         }
         bcrypt.compare(req.body.password, results[0].password)
             .then(valid => {
