@@ -6,7 +6,7 @@ exports.createPublication = (req, res, next) => {
     let post = {
         titre: req.body.titre,
         texte: req.body.texte,
-        employeID: req.body.employesID,
+        employeID: req.body.employeID,
         date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 
     };
