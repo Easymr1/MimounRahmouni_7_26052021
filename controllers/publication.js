@@ -48,12 +48,15 @@ exports.updatePublications = (req, res, next) => {
 }
 
 exports.deletePublication = (req, res, next) => {
-    let sql = 'DELETE FROM publication WHERE id=?';
+    let sql = `DELETE commentaire.*, publication.* FROM commentaire INNER JOIN publication WHERE publication.id = commentaire.publicationID AND commentaire.publicationID = ?`;
     let id = req.params.id
+    console.log(req.params.id)
 
     db.query(sql, id, (err, results) => {
         if (err) {
             res.status(401).json({ error: 'Publication non supprimer! ', err });
+            console.log(err)
+            return 
         };
         res.status(201).json({ message: 'Suppression réussi! ', results });
     })
