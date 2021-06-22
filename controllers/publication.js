@@ -7,16 +7,14 @@ exports.createPublication = (req, res, next) => {
         titre: req.body.titre,
         texte: req.body.texte,
         employeID: req.body.employeID,
-        date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-
     };
-    let sql = 'INSERT INTO publication SET ?'
-    db.query(sql, post, err => {
+    let sql = 'INSERT INTO publication SET ?, date= NOW()'
+    db.query(sql, post, (err, results) => {
         if (err) {
         res.status(401).json({ error: 'Publication non publier! ', err });
         return
         }
-        res.status(201).json({ message: 'Publication publier! ' });
+        res.status(201).json({results: results});
     })
 };
 
@@ -34,11 +32,10 @@ exports.updatePublications = (req, res, next) => {
     let update = {
         titre: req.body.titre,
         texte: req.body.texte, 
-        date: moment().format('MMMM Do YYYY, h:mm:ss a'),
     }
     let id = req.params.id;
 
-    let sql = `UPDATE publication SET ? WHERE id=${id}`
+    let sql = `UPDATE publication SET ?,date= NOW() WHERE id=${id}`
     db.query(sql, update, (err, results) => {
         if (err) {
             res.status(401).json({ error: 'Publication non mise a jour! ', err });
@@ -48,13 +45,12 @@ exports.updatePublications = (req, res, next) => {
 }
 
 exports.deletePublication = (req, res, next) => {
-    let sql = `DELETE commentaire.*, publication.* FROM commentaire INNER JOIN publication WHERE publication.id = commentaire.publicationID AND commentaire.publicationID = ?`;
-    let id = req.params.id
-    console.log(req.params.id)
-
+    let sql = `DELETE FROM publication WHERE id = ?`;
+    let id = req.params.id;
+    
     db.query(sql, id, (err, results) => {
         if (err) {
-            res.status(401).json({ error: 'Publication non supprimer! ', err });
+            res.status(400).json({ error: 'Publication non supprimer! ', err });
             console.log(err)
             return 
         };
