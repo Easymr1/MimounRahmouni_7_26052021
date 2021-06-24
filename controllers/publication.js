@@ -1,13 +1,15 @@
-let db = require('../database/connectMySQL')
-const moment = require('moment');
+let db = require('../database/connectMySQL');
 
 
 exports.createPublication = (req, res, next) => {
     let post = {
         titre: req.body.titre,
         texte: req.body.texte,
+        // image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         employeID: req.body.employeID,
     };
+
+    console.log(post.image)
     let sql = 'INSERT INTO publication SET ?, date= NOW()'
     db.query(sql, post, (err, results) => {
         if (err) {

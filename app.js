@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config()
+const path = require('path')
 
 const employesDB = require('./database/routesDB/employesDB')
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/DB', employesDB);
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/employes', employesRoutes);
 app.use('/api/publication', publicationRoutes);
