@@ -9,7 +9,7 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.put('/:id', userCtrl.updateEmploye);
 router.delete('/:id', userCtrl.deleteEmploye);
-router.get('/profile', userCtrl.profile);
+router.get('/:id', userCtrl.profile);
 
 
 module.exports = router;

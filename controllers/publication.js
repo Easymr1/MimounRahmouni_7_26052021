@@ -1,15 +1,15 @@
 let db = require('../database/connectMySQL');
-
+const fs = require('fs');
 
 exports.createPublication = (req, res, next) => {
     let post = {
         titre: req.body.titre,
         texte: req.body.texte,
-        // image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         employeID: req.body.employeID,
     };
 
-    console.log(post.image)
+    
     let sql = 'INSERT INTO publication SET ?, date= NOW()'
     db.query(sql, post, (err, results) => {
         if (err) {
@@ -31,31 +31,47 @@ exports.getAllPublications = (req, res, next) => {
 };
 
 exports.updatePublications = (req, res, next) => {
-    let update = {
+    let update = req.file ? {
         titre: req.body.titre,
-        texte: req.body.texte, 
-    }
+        texte: req.body.texte,
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    } : { ...req.body};
+
     let id = req.params.id;
 
     let sql = `UPDATE publication SET ?,date= NOW() WHERE id=${id}`
     db.query(sql, update, (err, results) => {
         if (err) {
             res.status(401).json({ error: 'Publication non mise a jour! ', err });
+            return;
         }
         res.status(201).json({ message: 'Modification réussi! ', results });
     })
 }
 
 exports.deletePublication = (req, res, next) => {
-    let sql = `DELETE FROM publication WHERE id = ?`;
+    let sqlDeleteFile = `Select publication.image FROM publication WHERE id = ?`;
     let id = req.params.id;
-    
-    db.query(sql, id, (err, results) => {
+
+    db.query(sqlDeleteFile, id, (err, results) => {
         if (err) {
-            res.status(400).json({ error: 'Publication non supprimer! ', err });
+            res.status(400).json({ error: 'File non supprimer! ', err });
             console.log(err)
             return 
         };
-        res.status(201).json({ message: 'Suppression réussi! ', results });
+        const filename = results[0].image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+        db.query(`DELETE FROM publication WHERE id = ?`, id, (err, results) => {
+                if (err) {
+                    res.status(400).json({ error: 'Publication non supprimer! ', err });
+                    console.log(err)
+                    return 
+                };
+
+                res.status(201).json({ message: 'Suppression réussi! ', results });
+            })
+        })
     })
+    
+    
 };

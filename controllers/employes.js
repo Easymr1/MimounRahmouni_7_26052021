@@ -73,7 +73,10 @@ exports.deleteEmploye = (req, res) => {
 }
 
 exports.profile = (req, res, next) => {
-    let sql = `SELECT employes.firstname, employes.lastname, employes.image_url FROM employes WHERE id= ${req.body.id}`;
+    let sql = `SELECT employes.firstname, employes.lastname, employes.image_url, employes.admin
+        FROM employes
+        WHERE employes.id= ${req.params.id}`;
+
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(400).json({ error: 'Une erreur c\'est produit !' });
