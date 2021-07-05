@@ -2,12 +2,12 @@ let db = require('../database/connectMySQL');
 const fs = require('fs');
 
 exports.createPublication = (req, res, next) => {
-    let post = {
+    let post = req.file ? {
         titre: req.body.titre,
         texte: req.body.texte,
-        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        image: `${req.protocol}://${req.get('host')}/images/publication/${req.file.filename}`,
         employeID: req.body.employeID,
-    };
+    } : {...req.body};
 
     
     let sql = 'INSERT INTO publication SET ?, date= NOW()'
@@ -34,7 +34,7 @@ exports.updatePublications = (req, res, next) => {
     let update = req.file ? {
         titre: req.body.titre,
         texte: req.body.texte,
-        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        image: `${req.protocol}://${req.get('host')}/images/publication/${req.file.filename}`,
     } : { ...req.body};
 
     let id = req.params.id;
@@ -59,8 +59,8 @@ exports.deletePublication = (req, res, next) => {
             console.log(err)
             return 
         };
-        const filename = results[0].image.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
+        const filename = results[0].image.split('/images/publication/')[1];
+        fs.unlink(`images/publication/${filename}`, () => {
         db.query(`DELETE FROM publication WHERE id = ?`, id, (err, results) => {
                 if (err) {
                     res.status(400).json({ error: 'Publication non supprimer! ', err });

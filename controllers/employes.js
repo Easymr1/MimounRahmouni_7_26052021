@@ -52,13 +52,23 @@ exports.login = (req, res) => {
 }
 
 exports.updateEmploye = (req, res) => {
-    let newName = 'Lee';
-    let sql = `UPDATE employes SET firstname = '${newName}' WHERE id = ${req.params.id}`;
-    db.query(sql, err => {
+    console.log(req.file)
+    
+    const update = req.file ? {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        image_url: `${req.protocol}://${req.get('host')}/images/profile/${req.file.filename}`,
+    } : { ...req.body};
+
+    const id = req.params.id;
+    const sql = `UPDATE employes SET ? WHERE id = ${id}`;
+
+    db.query(sql, update, (err, results) => {
         if (err) {
-            console.log('Modification echouer', err)
+            res.status(401).json({ error: 'Profile non mise a jour! ', err });
+            return;
         }
-        res.send('Modification réussi')
+        res.status(201).json({ message: 'Modification réussi! ', results });
     })
 }
 
