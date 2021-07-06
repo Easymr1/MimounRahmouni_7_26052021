@@ -15,11 +15,11 @@ exports.signup = (req, res, next) => {
                 image_url: req.body.image_url,
             };
             let sql = 'INSERT INTO employes SET ?'
-            db.query(sql, post, err => {
+            db.query(sql, post, (err, result) => {
                 if (err) {
                     throw res.status(401).json({ error: 'L\'utilisateur existe déja !' });
                 }
-                res.status(201).json({ message: 'Compte employés crée!' });
+                res.status(201).json({ message: 'Compte employés crée!'});
             })
         })
 };
