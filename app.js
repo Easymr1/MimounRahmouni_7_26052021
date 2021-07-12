@@ -1,4 +1,6 @@
 const express = require('express');
+const helmet = require("helmet");
+
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const path = require('path')
@@ -11,7 +13,7 @@ const publicationRoutes = require('./routes/publication');
 const commentaireRoutes = require('./routes/commentaire');
 
 const app = express();
-
+app.use(helmet());
 
 
 app.use((req, res, next) => {
