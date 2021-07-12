@@ -48,9 +48,8 @@ exports.updateCommentaire = (req, res, next) => {
     let sql = `UPDATE commentaire SET ?,date= NOW() WHERE id=${id}`;
     db.query(sql, update, (err, results) => {
         if (err) {
-            res.status(400).json({ error: 'Commentaire non modifier! ', err });
-            console.log(err)
-            return;
+            return res.status(400).json({ error: 'Commentaire non modifier! ', err });
+
         }
         res.status(200).json({ message: 'Commentaire modifier! ', results });
     })
