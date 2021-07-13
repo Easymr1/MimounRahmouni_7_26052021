@@ -55,7 +55,6 @@ exports.login = (req, res) => {
 }
 
 exports.updateEmploye = (req, res) => {
-    console.log(req.file)
     
     const update = req.file ? {
         firstname: req.body.firstname,

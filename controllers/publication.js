@@ -55,17 +55,17 @@ exports.deletePublication = (req, res, next) => {
 
     db.query(sqlDeleteFile, id, (err, results) => {
         if (err) {
-            res.status(400).json({ error: 'File non supprimer! ', err });
-            console.log(err)
-            return 
+           return res.status(400).json({ error: 'File non supprimer! ', err });
+
+             
         };
         const filename = results[0].image.split('/images/publication/')[1];
         fs.unlink(`images/publication/${filename}`, () => {
         db.query(`DELETE FROM publication WHERE id = ?`, id, (err, results) => {
                 if (err) {
-                    res.status(400).json({ error: 'Publication non supprimer! ', err });
-                    console.log(err)
-                    return 
+                    return res.status(400).json({ error: 'Publication non supprimer! ', err });
+
+                    
                 };
 
                 res.status(201).json({ message: 'Suppression réussi! ', results });

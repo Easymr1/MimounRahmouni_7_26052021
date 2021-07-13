@@ -4,7 +4,6 @@ const { now } = require('moment');
 
 
 exports.publierCommentaire = (req, res, next) => {
-
     let post = {
         texte: req.body.texte,
         employeID: req.body.employeID,
@@ -43,7 +42,7 @@ exports.updateCommentaire = (req, res, next) => {
     const update = {
         texte: req.body.texte,
     }
-    console.log(req.body)
+
     const id = req.params.id;
     let sql = `UPDATE commentaire SET ?,date= NOW() WHERE id=${id}`;
     db.query(sql, update, (err, results) => {
