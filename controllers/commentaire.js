@@ -28,7 +28,8 @@ exports.getCommentairesPublication = (req, res, next) => {
     ON publication.id = commentaire.publicationID
     INNER JOIN employes
     ON employes.id = commentaire.employeID
-    WHERE publication.id = ?`;
+    WHERE publication.id = ?
+    ORDER BY commentaire.date ASC`;
     let id = req.params.id;
     db.query(sql, id, (err, results) => {
         if (err) {

@@ -21,7 +21,7 @@ exports.createPublication = (req, res, next) => {
 };
 
 exports.getAllPublications = (req, res, next) => {
-    let sql = `SELECT publication.*, employes.firstname, employes.lastname, employes.image_url FROM publication INNER JOIN employes WHERE publication.employeID = employes.id ORDER BY id DESC`;
+    let sql = `SELECT publication.*, employes.firstname, employes.lastname, employes.image_url FROM publication INNER JOIN employes WHERE publication.employeID = employes.id ORDER BY publication.date DESC`;
     db.query(sql, (err, results) => {
         if (err) {
         
