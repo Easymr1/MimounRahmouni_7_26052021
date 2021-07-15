@@ -20,7 +20,16 @@ exports.signup = (req, res, next) => {
                     res.status(401).json({ error: 'L\'utilisateur existe déja !' });
                     return;
                 }
-                res.status(201).json({ message: 'Compte employés crée!'});
+                if(result) {
+                    db.query(`SELECT * FROM employes WHERE email=?;`, post.email, (err, results) => {
+                        if (err) {
+                           return res.status(401).json({ error: 'Une erreur c\'est produit à la création du compte !' });
+                        }
+                    res.status(201).json({ token: jwt.sign({ employesId: results[0].id, firstName: results[0].firstname, lastName: results[0].lastname, admin: results[0].admin },
+                            process.env.TOKEN_KEY, { expiresIn: '24h' })
+                        });
+                    })
+                }
             })
         })
 };
