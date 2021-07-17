@@ -19,7 +19,7 @@ exports.createtabl_employes = (req, res) => {
 };
 
 exports.createtable_publication = (req, res) => {
-    let sql = 'CREATE TABLE publication(id int AUTO_INCREMENT, titre VARCHAR(100) NOT NULL, texte TEXT NOT NULL, employeID int NOT NULL,date DATETIME NOT NULL, CONSTRAINT fk_publication_emplyeID FOREIGN (employeID) REFERENCES employes(id), PRIMARY KEY(id));';
+    let sql = 'CREATE TABLE publication(id int AUTO_INCREMENT, titre VARCHAR(100) NOT NULL, texte TEXT NOT NULL, employeID int NOT NULL,date DATETIME NOT NULL, CONSTRAINT fk_publication_emplyeID FOREIGN (employeID) REFERENCES employes(id) ON DELETE CASCADE, PRIMARY KEY(id));';
     db.query(sql, err => {
         if (err) {
             console.log('Table publication non crée', err)
@@ -29,7 +29,7 @@ exports.createtable_publication = (req, res) => {
 };
 
 exports.createtable_commentaire = (req, res) => {
-    let sql = 'CREATE TABLE commentaire(id int AUTO_INCREMENT, texte TEXT NOT NULL, employeID int NOT NULL, publicationID int NOT NULL, date DATETIME NOT NULL, CONSTRAINT fk_commentaire_emplyeID FOREIGN (employeID) REFERENCES employes(id),CONSTRAINT fk_commentaire_publicationID FOREIGN (publicationID) REFERENCES publication(id), PRIMARY KEY(id));';
+    let sql = 'CREATE TABLE commentaire(id int AUTO_INCREMENT, texte TEXT NOT NULL, employeID int NOT NULL, publicationID int NOT NULL, date DATETIME NOT NULL, CONSTRAINT fk_commentaire_emplyeID FOREIGN (employeID) REFERENCES employes(id) ON DELETE CASCADE ,CONSTRAINT fk_commentaire_publicationID FOREIGN (publicationID) REFERENCES publication(id) ON DELETE CASCADE, PRIMARY KEY(id));';
     db.query(sql, err => {
         if (err) {
             console.log('Table commentaire non crée', err)
